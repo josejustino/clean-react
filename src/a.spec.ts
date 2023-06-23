@@ -1,5 +1,5 @@
-class Test {
-  a (): void {
-    console.log();
-  }
-}
+describe('aa', () => {
+  test('aa', () => {
+    expect(1).toBe(1)
+  })
+})
