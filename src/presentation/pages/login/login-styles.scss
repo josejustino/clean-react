@@ -1,0 +1,144 @@
+@import '../../styles/colors.scss';
+
+* {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $background;
+}
+
+input[type="password"],
+input[type="email"] {
+  border: 1px solid $primaryLight;
+  border-radius: 4px;
+
+  line-height: 40px;
+  padding: 0 40px 0 8px;
+
+  &:focus {
+    outline-color: $primaryLight;
+  }
+}
+
+button {
+  background-color: $primary;
+  color: $white;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  line-height: 60px;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+
+  .header {
+    background-color: $primary;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-top: 40px solid $primaryDark;
+
+    img {
+      margin-top: 40px;
+    }
+
+    h1 {
+      color: $white;
+
+      margin: 16px 0px 40px
+    }
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+
+    width: 400px;
+    padding: 40px;
+    border-radius: 8px;
+
+    background-color: $white;
+    box-shadow: 0px 1px 3px -1px $black;
+
+    h2 {
+      color: $primaryDark;
+      text-align: center;
+      text-transform: uppercase;
+
+      font-size: 20px;
+    }
+
+    .inputWrap {
+      position: relative;
+      margin-top: 16px;
+      align-items: center;
+
+      display: flex;
+
+      input {
+        flex-grow: 1;
+      }
+
+      .status {
+        position: absolute;
+        right: 8px;
+        font-size: 12px;
+
+        cursor: help;
+      }
+    }
+
+    .submit {
+      margin-top: 32px;
+    }
+
+    .link {
+      text-align: center;
+      color: $primary;
+      text-transform: lowercase;
+      margin-top: 16px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .errorWrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .spinner {
+        margin-top: 30px;
+      }
+
+      .error {
+        margin-top: 30px;
+
+        color: $primaryLight;
+      }
+    }
+  }
+
+  .footer {
+    background-color: $primary;
+    height: 48px;
+  }
+}
