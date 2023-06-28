@@ -5,7 +5,7 @@ import { Router } from '@/presentation/components'
 
 import '@/presentation/styles/global.scss'
 
-createRoot(document.getElementById('main') as HTMLElement).render(
+createRoot(document.getElementById('main')).render(
   <React.StrictMode>
     <Router />
   </React.StrictMode>
