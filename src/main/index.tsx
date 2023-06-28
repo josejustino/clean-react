@@ -1,9 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
-import { Login } from '@/presentation/pages'
+import { Router } from '@/presentation/components'
 
-ReactDOM.render(
-  <Login />,
-  document.getElementById('main')
+createRoot(document.getElementById('main') as HTMLElement).render(
+  <React.StrictMode>
+    <Router />
+  </React.StrictMode>
 )
