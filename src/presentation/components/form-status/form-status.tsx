@@ -1,10 +1,10 @@
 import React from 'react'
 
-import Spinner from '../spinner/spinner'
+import { Spinner } from '../index'
 
 import Styles from './form-status-styles.scss'
 
-const Formstatus: React.FC = () => {
+const FormStatus: React.FC = () => {
   return (
     <div className={Styles.errorWrap}>
       <Spinner className={Styles.spinner} />
@@ -13,4 +13,4 @@ const Formstatus: React.FC = () => {
   )
 }
 
-export default Formstatus
+export default FormStatus
