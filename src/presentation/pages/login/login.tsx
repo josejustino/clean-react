@@ -21,7 +21,7 @@ const Login: React.FC<Props> = ({ validation }) => {
   })
 
   useEffect(() => {
-    validation.validate({ email: state.email })
+    validation?.validate({ email: state.email })
   }, [state.email])
 
   return (
