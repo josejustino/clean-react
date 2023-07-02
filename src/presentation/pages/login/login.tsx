@@ -40,7 +40,7 @@ const Login: React.FC<Props> = ({ validation }) => {
 
           <Input type='password' name='password' placeholder='Digite sua senha' />
 
-          <button role='button' disabled type='submit' className={Styles.submit}>Entrar</button>
+          <button role='button' disabled={!!(state.emailError || state.passwordError)} type='submit' className={Styles.submit}>Entrar</button>
           <span className={Styles.link}>Criar conta</span>
 
           <FormStatus />
