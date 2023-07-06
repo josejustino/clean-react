@@ -23,8 +23,6 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
     mainError: ''
   })
 
-  console.log(state)
-
   useEffect(() => {
     setState({
       ...state,
@@ -35,7 +33,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    if (state.isLoading) {
+    if (state.isLoading || state.emailError || state.passwordError) {
       return
     }
     setState({ ...state, isLoading: true })
@@ -47,7 +45,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
     <div className={Styles.login}>
       <LoginHeader />
       <Context.Provider value={{ state, setState }}>
-        <form className={Styles.form} onSubmit={handleSubmit}>
+        <form role='form' className={Styles.form} onSubmit={handleSubmit}>
           <h2>Login</h2>
 
           <Input type='email' name='email' placeholder='Digite seu e-mail' />
