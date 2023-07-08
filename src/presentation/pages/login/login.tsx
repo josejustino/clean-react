@@ -32,7 +32,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
       emailError: validation?.validate('email', state.email),
       passwordError: validation?.validate('password', state.password)
     }))
-  }, [])
+  }, [state.email, state.password])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
@@ -41,18 +41,18 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
       if (state.isLoading || state.emailError || state.passwordError) {
         return
       }
-      setState({ ...state, isLoading: true })
+      setState(state => ({ ...state, isLoading: true }))
 
       const account = await authentication.auth({ email: state.email, password: state.password })
 
       localStorage.setItem('accessToken', account.accessToken)
       navigate('/')
     } catch (error) {
-      setState({
+      setState(state => ({
         ...state,
         isLoading: false,
         mainError: error.message
-      })
+      }))
     }
   }
 
