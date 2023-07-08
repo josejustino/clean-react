@@ -12,7 +12,7 @@ import Styles from './login-styles.scss'
 
 type Props = {
   validation?: Validation
-  authentication?: Authentication
+  authentication: Authentication
 }
 
 const Login: React.FC<Props> = ({ validation, authentication }) => {
