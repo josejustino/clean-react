@@ -27,12 +27,12 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
   })
 
   useEffect(() => {
-    setState({
+    setState(state => ({
       ...state,
       emailError: validation?.validate('email', state.email),
       passwordError: validation?.validate('password', state.password)
-    })
-  }, [state.email, state.password])
+    }))
+  }, [])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
