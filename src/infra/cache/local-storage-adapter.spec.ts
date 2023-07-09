@@ -4,6 +4,8 @@ import 'jest-localstorage-mock'
 
 import { LocalStorageAdapter } from '@/infra/cache/local-storage-adapter'
 
+const makeSut = (): LocalStorageAdapter => new LocalStorageAdapter()
+
 describe('LocalStorageAdapter', () => {
   afterEach(cleanup)
 
@@ -12,7 +14,7 @@ describe('LocalStorageAdapter', () => {
   })
 
   test('Should call localStorage with correct values', async () => {
-    const sut = new LocalStorageAdapter()
+    const sut = makeSut()
     const key = faker.database.column()
     const value = faker.word.words()
 
