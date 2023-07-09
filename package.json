@@ -9,7 +9,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "check": "npm-check -u -s",
-    "eslint": "eslint src/** --fix",
+    "eslint": "eslint ./src --ext js,ts,tsx",
     "prepare": "husky install"
   },
   "keywords": [],
