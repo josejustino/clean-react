@@ -13,7 +13,7 @@ import Styles from './login-styles.scss'
 type Props = {
   validation?: Validation
   authentication: Authentication
-  saveAccessToken?: SaveAccessToken
+  saveAccessToken: SaveAccessToken
 }
 
 const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }) => {
@@ -26,6 +26,8 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken })
     passwordError: '',
     mainError: ''
   })
+
+  const context = useMemo(() => ({ state, setState }), [state, setState])
 
   useEffect(() => {
     setState(state => ({
@@ -56,10 +58,6 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken })
       }))
     }
   }
-
-  const context = useMemo(() => ({ state, setState }), [state, setState])
-
-  console.log(context)
 
   return (
     <div className={Styles.login}>
