@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Context from '@/presentation/contexts/form/form-context'
@@ -6,16 +6,17 @@ import Context from '@/presentation/contexts/form/form-context'
 import { Footer, Input, LoginHeader, FormStatus } from '@/presentation/components'
 
 import { type Validation } from '@/presentation/protocols/validation'
-import { type Authentication } from '@/domain/usecases'
+import { type Authentication, type SaveAccessToken } from '@/domain/usecases'
 
 import Styles from './login-styles.scss'
 
 type Props = {
   validation?: Validation
   authentication: Authentication
+  saveAccessToken: SaveAccessToken
 }
 
-const Login: React.FC<Props> = ({ validation, authentication }) => {
+const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }) => {
   const navigate = useNavigate()
   const [state, setState] = useState({
     isLoading: false,
@@ -25,6 +26,8 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
     passwordError: '',
     mainError: ''
   })
+
+  const context = useMemo(() => ({ state, setState }), [state, setState])
 
   useEffect(() => {
     setState(state => ({
@@ -45,7 +48,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
 
       const account = await authentication.auth({ email: state.email, password: state.password })
 
-      localStorage.setItem('accessToken', account.accessToken)
+      await saveAccessToken.save(account.accessToken)
       navigate('/')
     } catch (error) {
       setState(state => ({
@@ -59,7 +62,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
   return (
     <div className={Styles.login}>
       <LoginHeader />
-      <Context.Provider value={{ state, setState }}>
+      <Context.Provider value={context}>
         <form role='form' className={Styles.form} onSubmit={handleSubmit}>
           <h2>Login</h2>
 
