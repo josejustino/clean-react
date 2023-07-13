@@ -1,5 +1,5 @@
 import React from 'react'
-import { type RenderResult, render, cleanup, fireEvent } from '@testing-library/react'
+import { type RenderResult, render, cleanup } from '@testing-library/react'
 import { faker } from '@faker-js/faker'
 
 import SignUp from './signup'
@@ -25,11 +25,6 @@ const makeSut = (params?: SutParams): StuTypes => {
   }
 }
 
-const populateField = (sut: RenderResult, fieldName: string, value = faker.word.words()): void => {
-  const input = sut.getByTestId(fieldName)
-  fireEvent.input(input, { target: { value } })
-}
-
 describe('SignUp Component', () => {
   afterEach(cleanup)
   test('Should start with initial state', () => {
@@ -48,7 +43,7 @@ describe('SignUp Component', () => {
     const validationError = faker.word.words()
     const { sut } = makeSut({ validationError })
 
-    populateField(sut, 'name')
+    Helper.populateField(sut, 'name')
 
     Helper.testStatusForField(sut, 'name', validationError)
   })
