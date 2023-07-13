@@ -18,10 +18,11 @@ const SignUp: React.FC<Props> = ({ validation }) => {
     name: '',
     email: '',
     password: '',
+    passwordConfirmation: '',
     nameError: '',
     emailError: '',
-    passwordError: 'Campo obrigatório',
-    passwordConfirmationError: 'Campo obrigatório',
+    passwordError: '',
+    passwordConfirmationError: '',
     mainError: ''
   })
 
@@ -30,9 +31,10 @@ const SignUp: React.FC<Props> = ({ validation }) => {
       ...state,
       nameError: validation?.validate('name', state.name),
       emailError: validation?.validate('email', state.email),
-      passwordError: validation?.validate('password', state.password)
+      passwordError: validation?.validate('password', state.password),
+      passwordConfirmationError: validation?.validate('passwordConfirmation', state.passwordConfirmation)
     }))
-  }, [state.name, state.email])
+  }, [state.name, state.email, state.password, state.passwordConfirmation])
 
   const context = useMemo(() => ({ state, setState }), [state, setState])
 
@@ -46,7 +48,7 @@ const SignUp: React.FC<Props> = ({ validation }) => {
           <Input type='text' name='name' placeholder='Digite seu e-mail' />
           <Input type='email' name='email' placeholder='Digite seu e-mail' />
           <Input type='password' name='password' placeholder='Digite sua senha' />
-          <Input type='password' name='passwordConfirmation' placeholder='Digite sua senha' />
+          <Input type='password' name='passwordConfirmation' placeholder='Confirme sua senha' />
 
           <button data-testid="submit" disabled className={Styles.submit} type='submit'>Entrar</button>
           <span className={Styles.link}>Voltar para Login</span>
