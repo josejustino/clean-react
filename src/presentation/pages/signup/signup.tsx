@@ -1,22 +1,36 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import Context from '@/presentation/contexts/form/form-context'
 
 import { Footer, Input, LoginHeader, FormStatus } from '@/presentation/components'
 
+import { type Validation } from '@/presentation/protocols/validation'
+
 import Styles from './signup-styles.scss'
 
-const SignUp: React.FC = () => {
-  const [state] = useState({
+type Props = {
+  validation?: Validation
+}
+
+const SignUp: React.FC<Props> = ({ validation }) => {
+  const [state, setState] = useState({
     isLoading: false,
-    nameError: 'Campo obrigatório',
+    name: '',
+    nameError: '',
     emailError: 'Campo obrigatório',
     passwordError: 'Campo obrigatório',
     passwordConfirmationError: 'Campo obrigatório',
     mainError: ''
   })
 
-  const context = useMemo(() => ({ state }), [state])
+  useEffect(() => {
+    setState(state => ({
+      ...state,
+      nameError: validation?.validate('name', state.name)
+    }))
+  }, [state.name])
+
+  const context = useMemo(() => ({ state, setState }), [state, setState])
 
   return (
     <div className={Styles.signup}>
