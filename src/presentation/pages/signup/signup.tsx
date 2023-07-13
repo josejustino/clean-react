@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import Context from '@/presentation/contexts/form/form-context'
 
@@ -90,7 +90,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }) =>
           <Input type='password' name='passwordConfirmation' placeholder='Confirme sua senha' />
 
           <button data-testid="submit" disabled={!!(state.nameError || state.emailError || state.passwordError || state.passwordConfirmationError)} className={Styles.submit} type='submit'>Entrar</button>
-          <span className={Styles.link}>Voltar para Login</span>
+          <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar para Login</Link>
 
           <FormStatus />
         </form>
