@@ -70,7 +70,7 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken })
 
           <Input type='password' name='password' placeholder='Digite sua senha' />
 
-          <button role='button' disabled={!!(state.emailError || state.passwordError)} type='submit' className={Styles.submit}>Entrar</button>
+          <button data-testid="submit" disabled={!!(state.emailError || state.passwordError)} type='submit' className={Styles.submit}>Entrar</button>
           <Link data-testid="signup" to="/signup" className={Styles.link}>Criar conta</Link>
 
           <FormStatus />

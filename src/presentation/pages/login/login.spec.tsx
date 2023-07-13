@@ -1,12 +1,12 @@
 import React from 'react'
 import { Router } from 'react-router'
 import { createMemoryHistory } from 'history'
-import { screen, render, fireEvent, type RenderResult, cleanup, waitFor } from '@testing-library/react'
+import { render, fireEvent, type RenderResult, cleanup, waitFor } from '@testing-library/react'
 import { faker } from '@faker-js/faker'
 
 import { Login } from '@/presentation/pages'
 
-import { AuthenticationSpy, ValidationStub, SaveAccessTokenMock } from '@/presentation/test'
+import { AuthenticationSpy, ValidationStub, SaveAccessTokenMock, Helper } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
 
 type StuTypes = {
@@ -66,17 +66,6 @@ const simulateValidSubmit = async (
   await waitFor(() => form)
 }
 
-const testStatusForField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
-  const fieldStatus = sut.getByTestId(`${fieldName}-status`)
-  expect(fieldStatus.title).toBe(validationError || 'Tudo certo!')
-  expect(fieldStatus.textContent).toBe(validationError ? '🔴' : '🟢')
-}
-
-const testErrorWrapChildCount = (sut: RenderResult, count: number): void => {
-  const errorWrap = sut.getByTestId('error-wrap')
-  expect(errorWrap.childElementCount).toBe(count)
-}
-
 const testElementExists = (sut: RenderResult, fieldName: string): void => {
   const el = sut.getByTestId(fieldName)
 
@@ -89,12 +78,6 @@ const testElementText = (sut: RenderResult, fieldName: string, text: string): vo
   expect(el.textContent).toBe(text)
 }
 
-const testButtonIsDisabled = (sut: RenderResult, fieldName: string, isDisabled: boolean): void => {
-  const button: HTMLButtonElement = screen.getByRole(fieldName)
-
-  expect(button.disabled).toBe(isDisabled)
-}
-
 describe('Login Component', () => {
   afterEach(cleanup)
 
@@ -102,13 +85,9 @@ describe('Login Component', () => {
     const validationError = faker.word.words()
     const { sut } = makeSut({ validationError })
 
-    testErrorWrapChildCount(sut, 0)
-
-    const submitButton: HTMLButtonElement = screen.getByRole('button')
-    expect(submitButton.disabled).toBe(true)
-
-    testStatusForField(sut, 'email', validationError)
-    testStatusForField(sut, 'password', validationError)
+    Helper.testChildCount(sut, 'error-wrap', 0)
+    Helper.testStatusForField(sut, 'email', validationError)
+    Helper.testStatusForField(sut, 'password', validationError)
   })
 
   test('Should show e-mail error if Validation fails', () => {
@@ -117,7 +96,7 @@ describe('Login Component', () => {
 
     populateEmailField(sut)
 
-    testStatusForField(sut, 'email', validationError)
+    Helper.testStatusForField(sut, 'email', validationError)
   })
 
   test('Should show password error if Validation fails', () => {
@@ -126,7 +105,7 @@ describe('Login Component', () => {
 
     populatePasswordField(sut)
 
-    testStatusForField(sut, 'password', validationError)
+    Helper.testStatusForField(sut, 'password', validationError)
   })
 
   test('Should show valid email state if Validation succeds', () => {
@@ -134,7 +113,7 @@ describe('Login Component', () => {
 
     populateEmailField(sut)
 
-    testStatusForField(sut, 'email')
+    Helper.testStatusForField(sut, 'email')
   })
 
   test('Should show valid password state if Validation succeds', () => {
@@ -142,7 +121,7 @@ describe('Login Component', () => {
 
     populatePasswordField(sut)
 
-    testStatusForField(sut, 'password')
+    Helper.testStatusForField(sut, 'password')
   })
 
   test('Should enable submit button if form is valid', () => {
@@ -152,7 +131,7 @@ describe('Login Component', () => {
 
     populatePasswordField(sut)
 
-    testButtonIsDisabled(sut, 'button', false)
+    Helper.testButtonIsDisabled(sut, 'submit', false)
   })
 
   test('Should show spinner on submit', async () => {
@@ -204,7 +183,7 @@ describe('Login Component', () => {
     await simulateValidSubmit(sut)
 
     testElementText(sut, 'main-error', error.message)
-    testErrorWrapChildCount(sut, 1)
+    Helper.testChildCount(sut, 'error-wrap', 1)
   })
 
   test('Should call SaveAccessToken on success', async () => {
