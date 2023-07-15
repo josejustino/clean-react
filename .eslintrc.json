@@ -6,11 +6,16 @@
   },
   "extends": [
     "standard-with-typescript",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:cypress/recommended"
   ],
   "plugins": [
-    "react"
+    "react",
+    "cypress"
   ],
+  "env": {
+    "cypress/globals": true
+  },
   "parserOptions": {
     "project": "./tsconfig.json"
   },
