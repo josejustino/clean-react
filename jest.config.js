@@ -10,7 +10,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   testPathIgnorePatterns: [
     '<rootDir>/node_modules',
-    '<rootDir>/src/main/test/cypress'
+    '<rootDir>/src/main/tests/cypress'
   ],
   testEnvironment: 'jsdom',
   transform: {

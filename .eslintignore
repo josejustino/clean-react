@@ -6,3 +6,4 @@ public
 *.json
 cypress.config.ts
 webpack.config.js
+jest.config.js
