@@ -128,4 +128,17 @@ describe('Login', () => {
     cy.url().should('eq', `${baseUrl}/`)
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
   })
+
+  it('Should not call submit if form is invalid', () => {
+    cy.intercept('POST', '/login', {
+      statusCode: 200,
+      body: { accessToken: faker.string.uuid() }
+    }).as('request')
+
+    cy.getByTestId('email').focus()
+    cy.getByTestId('email').type(faker.internet.email())
+    cy.getByTestId('email').type('{enter}')
+
+    cy.get('@request.all').should('have.length', 0)
+  })
 })
