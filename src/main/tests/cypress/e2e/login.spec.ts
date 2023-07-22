@@ -117,10 +117,10 @@ describe('Login', () => {
     })
 
     cy.getByTestId('email').focus()
-    cy.getByTestId('email').type('johndoe@gmail.com')
+    cy.getByTestId('email').type(faker.internet.email())
 
     cy.getByTestId('password').focus()
-    cy.getByTestId('password').type('12345')
+    cy.getByTestId('password').type(faker.string.alphanumeric({ length: 5 }))
 
     cy.getByTestId('submit').click()
     cy.getByTestId('main-error').should('not.exist')
