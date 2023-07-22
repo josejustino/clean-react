@@ -56,7 +56,12 @@ describe('Login', () => {
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
 
-  it('Should present error if invalid credentials are provided', () => {
+  it('Should present InvalidCredentialsError on 401', () => {
+    cy.intercept('POST', '/login', {
+      body: { error: faker.word.words() },
+      statusCode: 401
+    })
+
     cy.getByTestId('email').focus()
     cy.getByTestId('email').type(faker.internet.email())
 
@@ -64,16 +69,35 @@ describe('Login', () => {
     cy.getByTestId('password').type(faker.string.alphanumeric({ length: 5 }))
 
     cy.getByTestId('submit').click()
-    cy.getByTestId('error-wrap')
-      .getByTestId('spinner').should('exist')
-      .getByTestId('main-error').should('not.exist')
-      .getByTestId('spinner').should('not.exist')
-      .getByTestId('main-error').should('exist')
-      // .getByTestId('main-error').should('contain.text', 'Credenciais inválidas')
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error').should('contain.text', 'Credenciais inválidas')
     cy.url().should('eq', `${baseUrl}/login`)
   })
 
-  it('Should present save accessTolen if valid credentials are provided', () => {
+  it('Should present UnexpectedError on 400', () => {
+    cy.intercept('POST', '/login', {
+      body: { error: faker.word.words() },
+      statusCode: 400
+    })
+
+    cy.getByTestId('email').focus()
+    cy.getByTestId('email').type(faker.internet.email())
+
+    cy.getByTestId('password').focus()
+    cy.getByTestId('password').type(faker.string.alphanumeric({ length: 5 }))
+
+    cy.getByTestId('submit').click()
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve.')
+    cy.url().should('eq', `${baseUrl}/login`)
+  })
+
+  it('Should present save accessToken if valid credentials are provided', () => {
+    cy.intercept('POST', '/login', {
+      statusCode: 200,
+      body: { accessToken: faker.string.uuid() }
+    })
+
     cy.getByTestId('email').focus()
     cy.getByTestId('email').type('johndoe@gmail.com')
 
@@ -81,11 +105,9 @@ describe('Login', () => {
     cy.getByTestId('password').type('12345')
 
     cy.getByTestId('submit').click()
-    cy.getByTestId('error-wrap')
-      .getByTestId('spinner').should('exist')
-      .getByTestId('main-error').should('not.exist')
-      .getByTestId('spinner').should('not.exist')
-    cy.url().should('eq', `${baseUrl}/login`)
+    cy.getByTestId('main-error').should('not.exist')
+    cy.getByTestId('spinner').should('not.exist')
+    cy.url().should('eq', `${baseUrl}/`)
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
   })
 })
