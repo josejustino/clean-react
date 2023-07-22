@@ -103,8 +103,8 @@ describe('Login', () => {
 
     cy.getByTestId('password').focus()
     cy.getByTestId('password').type(faker.string.alphanumeric({ length: 5 }))
+    cy.getByTestId('password').type('{enter}')
 
-    cy.getByTestId('submit').click()
     cy.getByTestId('spinner').should('not.exist')
     cy.getByTestId('main-error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve.')
     cy.url().should('eq', `${baseUrl}/login`)
