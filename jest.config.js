@@ -8,6 +8,10 @@ module.exports = {
     '!**/*.d.ts'
   ],
   coverageDirectory: 'coverage',
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules',
+    '<rootDir>/src/main/tests/cypress'
+  ],
   testEnvironment: 'jsdom',
   transform: {
     '.+\\.(ts|tsx)$': 'ts-jest'

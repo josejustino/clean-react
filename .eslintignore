@@ -3,3 +3,7 @@ node_modules
 coverage
 public
 *.scss
+*.json
+cypress.config.ts
+webpack.config.js
+jest.config.js
