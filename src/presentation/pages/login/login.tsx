@@ -68,7 +68,7 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken })
   const context = useMemo(() => ({ state, setState }), [state, setState])
 
   return (
-    <div className={Styles.login}>
+    <div className={Styles.loginWrap}>
       <LoginHeader />
       <Context.Provider value={context}>
         <form role='form' className={Styles.form} onSubmit={handleSubmit}>
