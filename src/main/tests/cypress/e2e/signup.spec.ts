@@ -125,7 +125,7 @@ describe('SignUp', () => {
 
     cy.getByTestId('error-wrap').should('not.exist')
     FormHelper.testUrl('/')
-    FormHelper.testLocalStorageItem('accessToken')
+    FormHelper.testLocalStorageItem('account')
   })
 
   it('Should not call submit if form is invalid', () => {
