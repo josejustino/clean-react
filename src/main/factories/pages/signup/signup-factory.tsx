@@ -6,7 +6,7 @@ import { makeRemoteAddAccount } from '@/main/factories/useCases/add-account/remo
 
 import { SignUp } from '@/presentation/pages'
 
-export const makeSignUp: React.FC = () => {
+export const MakeSignUp: React.FC = () => {
   return (
     <SignUp
       addAccount={makeRemoteAddAccount()}

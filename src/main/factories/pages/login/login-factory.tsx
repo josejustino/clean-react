@@ -6,7 +6,7 @@ import { makeLocalUpdateCurrentAccount } from '@/main/factories/useCases/update-
 
 import { Login } from '@/presentation/pages'
 
-export const makeLogin: React.FC = () => {
+export const MakeLogin: React.FC = () => {
   return (
     <Login
       authentication={makeRemoveAuthentication()}
