@@ -1,22 +1,23 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import Context from '@/presentation/contexts/form/form-context'
+import { FormContext, ApiContext } from '@/presentation/contexts'
 
 import { Footer, Input, LoginHeader, FormStatus, SubmitButton } from '@/presentation/components'
 
 import { type Validation } from '@/presentation/protocols/validation'
-import { type Authentication, type UpdateCurrentAccount } from '@/domain/usecases'
+import { type Authentication } from '@/domain/usecases'
 
 import Styles from './login-styles.scss'
 
 type Props = {
   validation?: Validation
   authentication: Authentication
-  updateCurrentAccount: UpdateCurrentAccount
 }
 
-const Login: React.FC<Props> = ({ validation, authentication, updateCurrentAccount }) => {
+const Login: React.FC<Props> = ({ validation, authentication }) => {
+  const { setCurrentAccount } = useContext(ApiContext)
+
   const navigate = useNavigate()
   const [state, setState] = useState({
     isLoading: false,
@@ -54,7 +55,7 @@ const Login: React.FC<Props> = ({ validation, authentication, updateCurrentAccou
 
       const account = await authentication.auth({ email: state.email, password: state.password })
 
-      await updateCurrentAccount.save(account)
+      setCurrentAccount(account)
       navigate('/')
     } catch (error) {
       setState(state => ({
@@ -70,7 +71,7 @@ const Login: React.FC<Props> = ({ validation, authentication, updateCurrentAccou
   return (
     <div className={Styles.loginWrap}>
       <LoginHeader />
-      <Context.Provider value={context}>
+      <FormContext.Provider value={context}>
         <form role='form' className={Styles.form} onSubmit={handleSubmit}>
           <h2>Login</h2>
 
@@ -83,7 +84,7 @@ const Login: React.FC<Props> = ({ validation, authentication, updateCurrentAccou
 
           <FormStatus />
         </form>
-      </Context.Provider>
+      </FormContext.Provider>
       <Footer />
     </div>
   )

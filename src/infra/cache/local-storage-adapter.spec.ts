@@ -3,6 +3,7 @@ import { cleanup } from '@testing-library/react'
 import 'jest-localstorage-mock'
 
 import { LocalStorageAdapter } from '@/infra/cache/local-storage-adapter'
+import { type AccountModel } from '@/domain/models'
 
 const makeSut = (): LocalStorageAdapter => new LocalStorageAdapter()
 
@@ -13,13 +14,16 @@ describe('LocalStorageAdapter', () => {
     localStorage.clear()
   })
 
-  test('Should call localStorage with correct values', async () => {
+  test('Should call localStorage with correct values', () => {
     const sut = makeSut()
     const key = faker.database.column()
-    const value = faker.word.words()
+    const value: AccountModel = {
+      accessToken: faker.string.uuid(),
+      name: faker.person.fullName()
+    }
 
-    await sut.set(key, value)
+    sut.set(key, value)
 
-    expect(localStorage.setItem).toHaveBeenCalledWith(key, value)
+    expect(localStorage.setItem).toHaveBeenCalledWith(key, JSON.stringify(value))
   })
 })
