@@ -73,8 +73,8 @@ describe('SignUp Component', () => {
     const validationError = faker.word.words()
     makeSut({ validationError })
 
-    Helper.testChildCount('error-wrap', 0)
-    Helper.testButtonIsDisabled('submit', true)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(0)
+    expect(screen.getByTestId('submit')).toBeDisabled()
     Helper.testStatusForField('name', validationError)
     Helper.testStatusForField('email', validationError)
     Helper.testStatusForField('password', validationError)
@@ -157,7 +157,7 @@ describe('SignUp Component', () => {
     Helper.populateField('password')
     Helper.populateField('passwordConfirmation')
 
-    Helper.testButtonIsDisabled('submit', false)
+    expect(screen.getByTestId('submit')).toBeEnabled()
   })
 
   test('Should show spinner on submit', async () => {
@@ -165,7 +165,7 @@ describe('SignUp Component', () => {
 
     await simulateValidSubmit()
 
-    Helper.testElementExists('spinner')
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
   })
 
   test('Should call AddAccount with correct values', async () => {
@@ -202,7 +202,7 @@ describe('SignUp Component', () => {
     expect(addAccountSpy.callsCount).toBe(0)
   })
 
-  test('Should present error if Authentication fails', async () => {
+  test('Should present error if AddAccount fails', async () => {
     const { addAccountSpy } = makeSut()
     const error = new EmailInUseError()
 
@@ -210,8 +210,8 @@ describe('SignUp Component', () => {
 
     await simulateValidSubmit()
 
-    await Helper.testElementText('main-error', error.message)
-    Helper.testChildCount('error-wrap', 1)
+    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
   })
 
   test('Should call SaveAccessToken on success', async () => {

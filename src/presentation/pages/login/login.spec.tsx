@@ -64,7 +64,8 @@ describe('Login Component', () => {
     const validationError = faker.word.words()
     makeSut({ validationError })
 
-    Helper.testChildCount('error-wrap', 0)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(0)
+    expect(screen.getByTestId('submit')).toBeDisabled()
     Helper.testStatusForField('email', validationError)
     Helper.testStatusForField('password', validationError)
   })
@@ -110,7 +111,7 @@ describe('Login Component', () => {
 
     Helper.populateField('password')
 
-    Helper.testButtonIsDisabled('submit', false)
+    expect(screen.getByTestId('submit')).toBeEnabled()
   })
 
   test('Should show spinner on submit', async () => {
@@ -118,7 +119,7 @@ describe('Login Component', () => {
 
     await simulateValidSubmit()
 
-    Helper.testElementExists('spinner')
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
   })
 
   test('Should call Authentication with correct values', async () => {
@@ -160,8 +161,8 @@ describe('Login Component', () => {
 
     await simulateValidSubmit()
 
-    await Helper.testElementText('main-error', error.message)
-    Helper.testChildCount('error-wrap', 1)
+    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
   })
 
   test('Should call setCurrentAccountMock on success', async () => {
@@ -180,6 +181,7 @@ describe('Login Component', () => {
 
     fireEvent.click(register)
 
+    expect(window.history.length).toBe(1)
     expect(history.location.pathname).toBe('/signup')
   })
 })
