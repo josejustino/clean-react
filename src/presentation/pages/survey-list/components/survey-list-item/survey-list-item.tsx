@@ -4,7 +4,7 @@ import { type SurveyModel } from '@/domain/models'
 
 import { SurveyItem, SurveyItemEmpty, SurveyContext } from '@/presentation/pages/survey-list/components'
 
-import Styles from './list-styles.scss'
+import Styles from './survey-list-item-styles.scss'
 
 const SurveyListItem: React.FC = () => {
   const { state } = useContext(SurveyContext)
