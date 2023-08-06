@@ -1,5 +1,5 @@
 import React from 'react'
-import { cleanup, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import { SurveyList } from '@/presentation/pages'
 
@@ -7,6 +7,7 @@ import { type LoadSurveyList } from '@/domain/usecases'
 import { type SurveyModel } from '@/domain/models'
 
 import { mockSurveyListModel } from '@/domain/test'
+import { UnexpectedError } from '@/domain/errors'
 
 class LoadSurveyListSpy implements LoadSurveyList {
   callsCount = 0
@@ -39,7 +40,7 @@ describe('SurveyList Component', () => {
   test('Should present 4 empty items on start', async () => {
     makeSut()
 
-    const surveyList = screen.getByTestId('survey-list')
+    const surveyList = screen.queryByTestId('survey-list')
 
     expect(surveyList.querySelectorAll('li:empty')).toHaveLength(4)
     expect(screen.queryByTestId('error')).not.toBeInTheDocument()
@@ -56,7 +57,7 @@ describe('SurveyList Component', () => {
   test('Should render SurveyItems on success', async () => {
     makeSut()
 
-    const surveyList = screen.getByTestId('survey-list')
+    const surveyList = screen.queryByTestId('survey-list')
 
     await waitFor(() => surveyList)
 
@@ -64,32 +65,32 @@ describe('SurveyList Component', () => {
     expect(screen.queryByTestId('error')).not.toBeInTheDocument()
   })
 
-  // TO DO - Verificar porque o método spy não injeta o erro
-  // test('Should render error on failure', async () => {
-  //   const loadSurveyListSpy = new LoadSurveyListSpy()
-  //   const error = new UnexpectedError()
+  test('Should render error on failure', async () => {
+    const loadSurveyListSpy = new LoadSurveyListSpy()
+    const error = new UnexpectedError()
 
-  //   jest.spyOn(loadSurveyListSpy, 'loadAll').mockRejectedValueOnce(error)
-  //   makeSut(loadSurveyListSpy)
+    jest.spyOn(loadSurveyListSpy, 'loadAll').mockRejectedValueOnce(error)
+    makeSut(loadSurveyListSpy)
 
-  //   await waitFor(() => screen.getByRole('heading'))
+    await waitFor(() => {
+      expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
+      expect(screen.getByTestId('error')).toHaveTextContent(error.message)
+    })
+  })
 
-  //   expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
-  //   expect(screen.getByTestId('error')).toHaveTextContent(error.message)
-  // })
+  test('Should call LoadSurveyList on reload', async () => {
+    const loadSurveyListSpy = new LoadSurveyListSpy()
 
-  // TO DO - Verificar porque o método spy não injeta o erro
-  // test('Should call LoadSurveyList on reload', async () => {
-  //   const loadSurveyListSpy = new LoadSurveyListSpy()
+    jest.spyOn(loadSurveyListSpy, 'loadAll').mockRejectedValueOnce(new UnexpectedError())
+    makeSut(loadSurveyListSpy)
 
-  //   jest.spyOn(loadSurveyListSpy, 'loadAll').mockRejectedValueOnce(new UnexpectedError())
-  //   makeSut(loadSurveyListSpy)
+    await waitFor(() => {
+      expect(screen.getByTestId('error')).toBeInTheDocument()
+    })
+    fireEvent.click(screen.queryByTestId('reload'))
 
-  //   await waitFor(() => screen.getByRole('heading'))
-  //   fireEvent.click(screen.queryByTestId('reload'))
+    expect(loadSurveyListSpy.callsCount).toBe(1)
 
-  //   expect(loadSurveyListSpy.callsCount).toBe(1)
-
-  //   await waitFor(() => screen.getByRole('heading'))
-  // })
+    await waitFor(() => screen.getByRole('heading'))
+  })
 })
