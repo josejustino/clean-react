@@ -33,8 +33,8 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
     const { email, password } = state
     const formData = { email, password }
 
-    const emailError = validation?.validate('email', formData)
-    const passwordError = validation?.validate('password', formData)
+    const emailError = validation.validate('email', formData)
+    const passwordError = validation.validate('password', formData)
 
     setState(state => ({
       ...state,

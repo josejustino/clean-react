@@ -37,10 +37,10 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
     const { name, email, password, passwordConfirmation } = state
     const formaData = { name, email, password, passwordConfirmation }
 
-    const nameError = validation?.validate('name', formaData)
-    const emailError = validation?.validate('email', formaData)
-    const passwordError = validation?.validate('password', formaData)
-    const passwordConfirmationError = validation?.validate('passwordConfirmation', formaData)
+    const nameError = validation.validate('name', formaData)
+    const emailError = validation.validate('email', formaData)
+    const passwordError = validation.validate('password', formaData)
+    const passwordConfirmationError = validation.validate('passwordConfirmation', formaData)
 
     setState(state => ({
       ...state,
