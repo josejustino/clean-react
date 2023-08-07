@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 
 export class GetStorageSpy implements GetStorage {
   key: string
-  value = faker.word.words()
+  value: any = faker.word.words()
 
   get (key: string): any {
     this.key = key
