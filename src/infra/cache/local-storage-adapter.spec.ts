@@ -3,7 +3,6 @@ import { cleanup } from '@testing-library/react'
 import 'jest-localstorage-mock'
 
 import { LocalStorageAdapter } from '@/infra/cache/local-storage-adapter'
-import { type AccountModel } from '@/domain/models'
 
 const makeSut = (): LocalStorageAdapter => new LocalStorageAdapter()
 
@@ -17,7 +16,7 @@ describe('LocalStorageAdapter', () => {
   test('Should call localStorage.setItem with correct values', () => {
     const sut = makeSut()
     const key = faker.database.column()
-    const value: AccountModel = {
+    const value = {
       accessToken: faker.string.uuid(),
       name: faker.person.fullName()
     }
@@ -30,7 +29,7 @@ describe('LocalStorageAdapter', () => {
   test('Should call localStorage.getItem with correct value', () => {
     const sut = makeSut()
     const key = faker.database.column()
-    const value: AccountModel = {
+    const value = {
       accessToken: faker.string.uuid(),
       name: faker.person.fullName()
     }

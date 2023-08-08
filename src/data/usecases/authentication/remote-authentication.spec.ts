@@ -4,16 +4,15 @@ import { HttpPostClientSpy } from '@/data/test'
 import { RemoteAuthentication } from './remote-authentication'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols/http'
-import { type AccountModel } from '@/domain/models'
-import { mockAuthentication, mockAccountModel } from '@/domain/test'
+import { mockAuthentication, mockAuthenticationModel } from '@/domain/test'
 
 type SutTypes = {
   sut: RemoteAuthentication
-  httpPostClientSpy: HttpPostClientSpy<AccountModel>
+  httpPostClientSpy: HttpPostClientSpy<RemoteAuthentication.Model>
 }
 
 const makeSut = (url: string = faker.internet.url()): SutTypes => {
-  const httpPostClientSpy = new HttpPostClientSpy<AccountModel>()
+  const httpPostClientSpy = new HttpPostClientSpy<RemoteAuthentication.Model>()
   const sut = new RemoteAuthentication(url, httpPostClientSpy)
 
   return {
@@ -73,9 +72,9 @@ describe('RemoteAuthentication', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  test('Should return and AccountModel if HttpPostClient returns 200', async () => {
+  test('Should return and Authentication.Model if HttpPostClient returns 200', async () => {
     const { sut, httpPostClientSpy } = makeSut()
-    const httpResult = mockAccountModel()
+    const httpResult = mockAuthenticationModel()
 
     httpPostClientSpy.response = {
       statusCode: HttpStatusCode.ok,

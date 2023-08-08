@@ -4,22 +4,21 @@ import { createMemoryHistory } from 'history'
 import { faker } from '@faker-js/faker'
 import { render, cleanup, fireEvent, waitFor, screen } from '@testing-library/react'
 
-import { type AccountModel } from '@/domain/models'
-
 import { ApiContext } from '@/presentation/contexts'
 
 import SignUp from './signup'
 
 import {
   Helper,
-  ValidationStub,
-  AddAccountSpy
+  ValidationStub
 } from '@/presentation/test'
 import { EmailInUseError } from '@/domain/errors'
+import { AddAccountSpy } from '@/domain/test'
+import { type AddAccount } from '@/domain/usecases'
 
 type StuTypes = {
   addAccountSpy: AddAccountSpy
-  setCurrentAccountMock: (account: AccountModel) => void
+  setCurrentAccountMock: (account: AddAccount.Model) => void
 }
 
 type SutParams = {
