@@ -1,16 +1,27 @@
 import React from 'react'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import { SurveyList } from '@/presentation/pages'
 import { UnexpectedError } from '@/domain/errors'
 import { LoadSurveyListSpy } from '@/domain/test'
 
+import { ApiContext } from '@/presentation/contexts'
+
 type SutTypes = {
   loadSurveyListSpy: LoadSurveyListSpy
 }
 
 const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
-  render(<SurveyList loadSurveyList={loadSurveyListSpy} />)
+  render(
+    <ApiContext.Provider value={{ setCurrentAccount: jest.fn() }}>
+
+    <Router location={createMemoryHistory().location} navigator={createMemoryHistory()}>
+      <SurveyList loadSurveyList={loadSurveyListSpy} />
+    </Router>
+    </ApiContext.Provider>
+  )
 
   return {
     loadSurveyListSpy
