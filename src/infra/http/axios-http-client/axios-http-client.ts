@@ -1,24 +1,50 @@
 import axios, { type AxiosResponse } from 'axios'
 
-import { type HttpResponse, type HttpPostParams, type HttpPostClient } from '@/data/protocols/http'
+import {
+  type HttpResponse,
+  type HttpPostParams,
+  type HttpPostClient,
+  type HttpGetParams,
+  type HttpGetClient
+} from '@/data/protocols/http'
 
-export class AxiosHttpClient implements HttpPostClient<any, any> {
-  async post (params: HttpPostParams<any>): Promise<HttpResponse<any>> {
-    let httpResponse: AxiosResponse<any>
+export class AxiosHttpClient implements HttpPostClient, HttpGetClient {
+  async post (params: HttpPostParams): Promise<HttpResponse<any>> {
+    let axiosResponse: AxiosResponse
 
     try {
-      httpResponse = await axios.post(params.url, params.body)
+      axiosResponse = await axios.post(params.url, params.body)
     } catch (error) {
       if (error.code === 'ERR_NETWORK') {
-        httpResponse = error
+        axiosResponse = error
       } else {
-        httpResponse = error.response
+        axiosResponse = error.response
       }
     }
 
+    return this.adapt(axiosResponse)
+  }
+
+  async get (params: HttpGetParams): Promise<HttpResponse> {
+    let axiosResponse: AxiosResponse
+
+    try {
+      axiosResponse = await axios.get(params.url, { headers: params.headers })
+    } catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+        axiosResponse = error
+      } else {
+        axiosResponse = error.response
+      }
+    }
+
+    return this.adapt(axiosResponse)
+  }
+
+  private adapt (axiosResponse: AxiosResponse): HttpResponse {
     return {
-      statusCode: httpResponse.status,
-      body: httpResponse.data
+      statusCode: axiosResponse.status,
+      body: axiosResponse.data
     }
   }
 }

@@ -1,6 +1,6 @@
 @import '../../styles/colors.scss';
 
-.header {
+.headerWrap {
   background-color: $primary;
 
   display: flex;
@@ -17,5 +17,11 @@
     color: $white;
 
     margin: 16px 0px 40px
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .headerWrap {
+    border-top-width: 20px;
   }
 }
