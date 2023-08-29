@@ -21,11 +21,14 @@ const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
   const setCurrentAccountMock = jest.fn()
 
   render(
-    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }}>
-
-    <Router location={history.location} navigator={history}>
-      <SurveyList loadSurveyList={loadSurveyListSpy} />
-    </Router>
+    <ApiContext.Provider
+      value={{
+        setCurrentAccount: setCurrentAccountMock,
+        getCurrentAccount: () => mockAccountModel()
+      }}>
+      <Router location={history.location} navigator={history}>
+        <SurveyList loadSurveyList={loadSurveyListSpy} />
+      </Router>
     </ApiContext.Provider>
   )
 

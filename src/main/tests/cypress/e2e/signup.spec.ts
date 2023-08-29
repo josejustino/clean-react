@@ -1,8 +1,13 @@
 import { faker } from '@faker-js/faker'
 
-import * as FormHelper from '../support/form-helpers'
-import * as Helper from '../support/helpers'
-import * as Http from '../support/signup-mocks'
+import * as FormHelper from '../utils/form-helpers'
+import * as Helper from '../utils/helpers'
+import * as Http from '../utils/http-mocks'
+
+const path = 'signup'
+export const mockForbiddenError = (): void => { Http.mockForbiddenError(path, 'POST') }
+export const mockServerError = (): void => { Http.mockServerError(path, 'POST') }
+export const mockSuccess = (): void => { Http.mockOk(path, 'POST', 'account') }
 
 const populateFields = (): void => {
   cy.getByTestId('name').focus()
@@ -94,7 +99,7 @@ describe('SignUp', () => {
   })
 
   it('Should present EmailInUse on 403', () => {
-    Http.mockForbiddenError()
+    mockForbiddenError()
 
     simulateValidSubmit()
 
@@ -103,7 +108,7 @@ describe('SignUp', () => {
   })
 
   it('Should present UnexpectedError on default error cases', () => {
-    Http.mockServerError()
+    mockServerError()
 
     simulateValidSubmit()
 
@@ -112,7 +117,7 @@ describe('SignUp', () => {
   })
 
   it('Should present save accessToken if valid credentials are provided', () => {
-    Http.mockOk()
+    mockSuccess()
 
     simulateValidSubmit()
 
@@ -122,7 +127,7 @@ describe('SignUp', () => {
   })
 
   it('Should not call submit if form is invalid', () => {
-    Http.mockOk()
+    mockSuccess()
 
     cy.getByTestId('email').focus()
     cy.getByTestId('email').type(faker.internet.email())

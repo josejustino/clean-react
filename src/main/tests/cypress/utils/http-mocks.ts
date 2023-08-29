@@ -24,7 +24,7 @@ export const mockServerError = (url: string, method: Method): void => {
 
 export const mockOk = (url: string, method: Method, response: any): void => {
   cy.intercept(method, url, {
-    body: response,
+    fixture: response,
     statusCode: 200
   }).as('request')
 }

@@ -21,7 +21,7 @@ export default defineConfig({
       }))
     },
     baseUrl: 'http://localhost:3000',
-    fixturesFolder: false,
+    fixturesFolder: 'src/main/tests/cypress/fixtures',
     downloadsFolder: undefined,
     supportFile: 'src/main/tests/cypress/support/index.js',
     specPattern: 'src/main/tests/cypress/e2e/**/*.spec.ts',

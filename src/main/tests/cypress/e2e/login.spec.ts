@@ -1,8 +1,14 @@
 import { faker } from '@faker-js/faker'
 
-import * as FormHelper from '../support/form-helpers'
-import * as Helper from '../support/helpers'
-import * as Http from '../support/login-mocks'
+import * as FormHelper from '../utils/form-helpers'
+import * as Helper from '../utils/helpers'
+import * as Http from '../utils/http-mocks'
+
+const path = 'login'
+
+export const mockUnauthorizedError = (): void => { Http.mockUnauthorizedError(path) }
+export const mockServerError = (): void => { Http.mockServerError(path, 'POST') }
+export const mockSuccess = (): void => { Http.mockOk(path, 'POST', 'account') }
 
 const simulateValidSubmit = (): void => {
   cy.getByTestId('email').focus()
@@ -57,7 +63,7 @@ describe('Login', () => {
   })
 
   it('Should present InvalidCredentialsError on 401', () => {
-    Http.mockUnauthorizedError()
+    mockUnauthorizedError()
 
     simulateValidSubmit()
 
@@ -66,7 +72,7 @@ describe('Login', () => {
   })
 
   it('Should present UnexpectedError on default error cases', () => {
-    Http.mockServerError()
+    mockServerError()
 
     simulateValidSubmit()
 
@@ -74,18 +80,18 @@ describe('Login', () => {
     Helper.testUrl('/login')
   })
 
-  it('Should present save accessToken if valid credentials are provided', () => {
-    Http.mockOk()
+  it('Should store account on localStorage if valid credentials are provided', () => {
+    mockSuccess()
 
     simulateValidSubmit()
 
-    cy.getByTestId('error-wrap').should('not.exist')
+    cy.getByTestId('error-wrap').should('not.have.descendants')
     Helper.testUrl('/')
     Helper.testLocalStorageItem('account')
   })
 
   it('Should not call submit if form is invalid', () => {
-    Http.mockOk()
+    mockSuccess()
 
     cy.getByTestId('email').focus()
     cy.getByTestId('email').type(faker.internet.email())
