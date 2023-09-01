@@ -32,7 +32,7 @@ module.exports = merge(common, {
       }
     ]
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   devServer: {
     port: 3000,
     open: true,
