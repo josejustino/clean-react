@@ -5,5 +5,6 @@ public
 *.scss
 *.json
 cypress.config.ts
-webpack.config.js
+webpack.*.js
 jest.config.js
+dist
