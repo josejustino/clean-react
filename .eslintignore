@@ -8,3 +8,4 @@ cypress.config.ts
 webpack.*.js
 jest.config.js
 dist
+index.js
