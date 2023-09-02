@@ -2,10 +2,18 @@ node_modules
 .vscode
 coverage
 public
+dist
 *.scss
 *.json
-cypress.config.ts
-webpack.*.js
-jest.config.js
-dist
-index.js
+
+# node_modules
+# .vscode
+# coverage
+# public
+# *.scss
+# *.json
+# cypress.config.ts
+# webpack.*.js
+# jest.config.js
+# dist
+# index.js
