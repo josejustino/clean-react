@@ -29,10 +29,20 @@ module.exports = merge(common, {
             loader: 'sass-loader'
           }
         ]
-      }
+      },
+      {
+        test: /\.(ts|tsx|js|jsx)$/,
+        enforce: "pre",
+        use: [
+          {
+            loader: 'source-map-loader'
+          }
+        ],
+      },
     ]
   },
-  devtool: 'inline-source-map',
+  ignoreWarnings: [/Failed to parse source map/],
+  devtool: 'eval-source-map',
   devServer: {
     port: 3000,
     static: {
