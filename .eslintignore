@@ -5,15 +5,8 @@ public
 dist
 *.scss
 *.json
-
-# node_modules
-# .vscode
-# coverage
-# public
-# *.scss
-# *.json
-# cypress.config.ts
-# webpack.*.js
-# jest.config.js
-# dist
-# index.js
+jest.config.js
+cypress.config.ts
+webpack.*.js
+dist
+index.js
