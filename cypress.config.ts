@@ -25,6 +25,7 @@ export default defineConfig({
     downloadsFolder: undefined,
     supportFile: 'src/main/tests/cypress/support/index.js',
     specPattern: 'src/main/tests/cypress/e2e/**/*.spec.ts',
-    experimentalRunAllSpecs: true
+    experimentalRunAllSpecs: true,
+    video: false
   },
 });
