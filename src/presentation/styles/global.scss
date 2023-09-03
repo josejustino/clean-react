@@ -22,10 +22,14 @@ input[type="text"] {
 button {
   background-color: $primary;
   color: $white;
+
   font-size: 16px;
+  line-height: 50px;
+
   border-radius: 8px;
   border: none;
-  line-height: 50px;
+  outline: none;
+
   padding: 0 16px;
 
   cursor: pointer;
