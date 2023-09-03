@@ -1,5 +1,5 @@
 import { HttpStatusCode, type HttpGetClient } from '@/data/protocols/http'
-import { AccessDeniedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 
 export class RemoveLoadSurveyResult {
   constructor (
@@ -12,8 +12,9 @@ export class RemoveLoadSurveyResult {
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok: break
+      case HttpStatusCode.forbidden: throw new AccessDeniedError()
       default:
-        throw new AccessDeniedError()
+        throw new UnexpectedError()
     }
   }
 }
