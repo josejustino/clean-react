@@ -6,6 +6,7 @@ import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapt
 
 import { MakeLogin, MakeSignUp, MakeSurveyList } from '@/main/factories/pages'
 import { PrivateRoute } from '@/presentation/components'
+import { SurveyResult } from '@/presentation/pages'
 
 const Router: React.FC = () => {
   const context = useMemo(() => ({
@@ -26,6 +27,7 @@ const Router: React.FC = () => {
             element={<PrivateRoute />}
           >
             <Route path='/' element={<MakeSurveyList />} />
+            <Route path='/surveys' element={<SurveyResult />} />
           </Route>
         </Routes>
       </BrowserRouter>
