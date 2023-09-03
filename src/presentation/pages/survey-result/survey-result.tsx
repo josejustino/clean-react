@@ -22,14 +22,14 @@ const SurveyResult: React.FC = () => {
 
           <li className={Styles.active}>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/360px-React-icon.svg.png" alt="" />
-            <span className={Styles.anwer}>ReactJS</span>
-            <span className={Styles.percent}>50%</span>
+            <span className={Styles.anwer}>VueJS</span>
+            <span className={Styles.percent}>30%</span>
           </li>
 
           <li>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/360px-React-icon.svg.png" alt="" />
-            <span className={Styles.anwer}>ReactJS</span>
-            <span className={Styles.percent}>50%</span>
+            <span className={Styles.anwer}>AngularJS</span>
+            <span className={Styles.percent}>20%</span>
           </li>
         </FlipMove>
         <button>Voltar</button>
