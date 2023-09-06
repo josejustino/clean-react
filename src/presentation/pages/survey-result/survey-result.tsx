@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import FlipMove from 'react-flip-move'
-import { Calendar, Error, Footer, Header, Loading } from '@/presentation/components'
+import { useNavigate } from 'react-router-dom'
 
 import { type LoadSurveyResult } from '@/domain/usecases'
 import { useErrorHandler } from '@/presentation/hooks'
+
+import { Calendar, Error, Footer, Header, Loading } from '@/presentation/components'
 
 import Styles from './survey-result-styles.scss'
 
@@ -26,6 +28,8 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }) => {
   const reload = (): void => {
     setState(state => ({ isLoading: false, surveyResult: null, error: '', reload: !state.reload }))
   }
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     loadSurveyResult.load()
@@ -52,7 +56,7 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }) => {
                 </li>
               ))}
             </FlipMove>
-            <button>Voltar</button>
+            <button data-testid="back-button" onClick={() => { navigate('/') }}>Voltar</button>
           </>
         )}
 
