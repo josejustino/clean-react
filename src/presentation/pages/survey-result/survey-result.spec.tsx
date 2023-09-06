@@ -8,11 +8,10 @@ import { SurveyResult } from '@/presentation/pages'
 
 import { mockAccountModel } from '@/domain/test'
 
-describe('SurveyResult Component', () => {
-  test('Should present correct initial state', async () => {
-    const history = createMemoryHistory({ initialEntries: ['/'] })
+const makeSut = (): void => {
+  const history = createMemoryHistory({ initialEntries: ['/'] })
 
-    render(
+  render(
       <ApiContext.Provider
       value={{
         setCurrentAccount: jest.fn(),
@@ -22,8 +21,12 @@ describe('SurveyResult Component', () => {
         <SurveyResult />
         </Router>
     </ApiContext.Provider>
+  )
+}
 
-    )
+describe('SurveyResult Component', () => {
+  test('Should present correct initial state', async () => {
+    makeSut()
 
     const surveyResult = screen.getByTestId('survey-result')
 
