@@ -7,7 +7,7 @@ type Props = {
   reload: () => void
 }
 
-const SurveyListError: React.FC<Props> = ({ error, reload }) => {
+const Error: React.FC<Props> = ({ error, reload }) => {
   return (
     <div className={Styles.errorWrap}>
       <span data-testid="error">{error}</span>
@@ -16,4 +16,4 @@ const SurveyListError: React.FC<Props> = ({ error, reload }) => {
   )
 }
 
-export default SurveyListError
+export default Error
