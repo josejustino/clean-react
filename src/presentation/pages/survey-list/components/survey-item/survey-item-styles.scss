@@ -73,14 +73,21 @@
 
   footer {
     background-color: $primary;
-    color: $white;
 
-    line-height: 40px;
-    text-transform: lowercase;
-    text-align: center;
     cursor: pointer;
 
     border-radius: 0 0 8px 8px;
+
+    a {
+      color: $white;
+
+      text-align: center;
+      line-height: 40px;
+      text-transform: lowercase;
+      text-decoration: none;
+
+      display: block;
+    }
 
     &:hover {
       background-color: $primaryDark;
