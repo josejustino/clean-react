@@ -3,19 +3,17 @@ import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import { render, screen, waitFor } from '@testing-library/react'
 
+import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/domain/test'
+import { UnexpectedError } from '@/domain/errors'
 import { ApiContext } from '@/presentation/contexts'
 import { SurveyResult } from '@/presentation/pages'
-
-import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/domain/test'
 
 type SutTypes = {
   loadSurveyResultSpy: LoadSurveyResultSpy
 }
 
-const makeSut = (surveyResult = mockSurveyResultModel()): SutTypes => {
+const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
   const history = createMemoryHistory({ initialEntries: ['/'] })
-  const loadSurveyResultSpy = new LoadSurveyResultSpy()
-  loadSurveyResultSpy.surveyResult = surveyResult
 
   render(
       <ApiContext.Provider
@@ -56,11 +54,15 @@ describe('SurveyResult Component', () => {
   })
 
   test('Should present SurveyResult data on success', async () => {
+    const loadSurveyResultSpy = new LoadSurveyResultSpy()
+
     const surveyResult = Object.assign(mockSurveyResultModel(), {
       date: new Date('2023-07-30T00:00:00')
     })
 
-    makeSut(surveyResult)
+    loadSurveyResultSpy.surveyResult = surveyResult
+
+    makeSut(loadSurveyResultSpy)
 
     await waitFor(() => screen.getByTestId('survey-result'))
 
@@ -90,5 +92,19 @@ describe('SurveyResult Component', () => {
 
     expect(percents[0]).toHaveTextContent(`${surveyResult.answers[0].percent}%`)
     expect(percents[1]).toHaveTextContent(`${surveyResult.answers[1].percent}%`)
+  })
+
+  test('Should render error on UnexpectedError', async () => {
+    const loadSurveyResultSpy = new LoadSurveyResultSpy()
+    const error = new UnexpectedError()
+
+    jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(error)
+    makeSut(loadSurveyResultSpy)
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('question')).not.toBeInTheDocument()
+      expect(screen.getByTestId('error')).toHaveTextContent(error.message)
+      expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
+    })
   })
 })
