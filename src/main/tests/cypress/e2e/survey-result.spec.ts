@@ -56,6 +56,15 @@ describe('SurveyResult', () => {
       assert.equal(li.find('[data-testid="answer"]').text(), 'any_answer_2')
       assert.equal(li.find('[data-testid="percent"]').text(), '30%')
       assert.notExists(li.find('[data-testid="image"]'))
-    }).should('not.have.css', 'box-shadow')
+    }).should('not.have.css', 'box-shadow', 'rgb(188, 71, 123) 0px 0px 3px 2px')
+  })
+
+  it('Should go to SurveyList on back button click', () => {
+    mockSuccess()
+    cy.visit('/surveys/any_id')
+
+    cy.getByTestId('back-button').click()
+
+    Helper.testUrl('/')
   })
 })
