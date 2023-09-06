@@ -4,9 +4,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ApiContext } from '@/presentation/contexts'
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters'
 
-import { MakeLogin, MakeSignUp, MakeSurveyList } from '@/main/factories/pages'
+import { MakeLogin, MakeSignUp, MakeSurveyList, MakeSurveyResult } from '@/main/factories/pages'
 import { PrivateRoute } from '@/presentation/components'
-import { SurveyResult } from '@/presentation/pages'
 
 const Router: React.FC = () => {
   const context = useMemo(() => ({
@@ -27,7 +26,7 @@ const Router: React.FC = () => {
             element={<PrivateRoute />}
           >
             <Route path='/' element={<MakeSurveyList />} />
-            <Route path='/surveys' element={<SurveyResult />} />
+            <Route path='/surveys/:id' element={<MakeSurveyResult />} />
           </Route>
         </Routes>
       </BrowserRouter>
