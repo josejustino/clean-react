@@ -1,7 +1,7 @@
 import * as Helper from '../utils/helpers'
 import * as Http from '../utils/http-mocks'
 
-const path = 'surveys'
+const path = /surveys/
 export const mockUnexpectedError = (): void => { Http.mockServerError(path, 'GET') }
 export const mockAccessDeniedError = (): void => { Http.mockForbiddenError(path, 'GET') }
 export const mockSuccess = (): void => { Http.mockOk(path, 'GET', 'survey-list') }

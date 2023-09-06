@@ -4,7 +4,7 @@ import * as FormHelper from '../utils/form-helpers'
 import * as Helper from '../utils/helpers'
 import * as Http from '../utils/http-mocks'
 
-const path = 'signup'
+const path = /signup/
 export const mockForbiddenError = (): void => { Http.mockForbiddenError(path, 'POST') }
 export const mockServerError = (): void => { Http.mockServerError(path, 'POST') }
 export const mockSuccess = (): void => { Http.mockOk(path, 'POST', 'account') }
