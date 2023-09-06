@@ -15,7 +15,8 @@ export const mockForbiddenError = (url: RegExp, method: Method): void => {
   }).as('request')
 }
 
-export const mockServerError = (url: RegExp, method: Method): void => {
+export const mockServerError = (url: RegExp | string, method: Method): void => {
+  console.log(url)
   cy.intercept(method, url, {
     body: { error: faker.word.words() },
     statusCode: faker.helpers.arrayElement([400, 404, 500])
