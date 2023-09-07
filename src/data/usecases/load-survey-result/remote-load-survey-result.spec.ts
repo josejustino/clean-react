@@ -21,7 +21,7 @@ const makeSut = (url = faker.internet.url()): SutTypes => {
 }
 
 describe('RemoteLoadSurveyResult', () => {
-  test('Should call HttpGetClient with correct URL', async () => {
+  test('Should call HttpClient with correct URL and Method', async () => {
     const url = faker.internet.url()
     const { sut, httpClientSpy } = makeSut(url)
 
@@ -33,9 +33,10 @@ describe('RemoteLoadSurveyResult', () => {
     await sut.load()
 
     expect(httpClientSpy.url).toBe(url)
+    expect(httpClientSpy.method).toBe('GET')
   })
 
-  test('Should throw AccessDeniedError if HttpGetClient return 403', async () => {
+  test('Should throw AccessDeniedError if HttpClient return 403', async () => {
     const { sut, httpClientSpy } = makeSut()
     httpClientSpy.response = {
       statusCode: HttpStatusCode.forbidden
@@ -46,7 +47,7 @@ describe('RemoteLoadSurveyResult', () => {
     await expect(promise).rejects.toThrow(new AccessDeniedError())
   })
 
-  test('Should throw UnexpectedError if HttpGetClient return 404', async () => {
+  test('Should throw UnexpectedError if HttpClient return 404', async () => {
     const { sut, httpClientSpy } = makeSut()
     httpClientSpy.response = {
       statusCode: HttpStatusCode.notFound
@@ -57,7 +58,7 @@ describe('RemoteLoadSurveyResult', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  test('Should throw UnexpectedError if HttpGetClient return 500', async () => {
+  test('Should throw UnexpectedError if HttpClient return 500', async () => {
     const { sut, httpClientSpy } = makeSut()
     httpClientSpy.response = {
       statusCode: HttpStatusCode.serverError
