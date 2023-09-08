@@ -1,4 +1,5 @@
 import React from 'react'
+import { RecoilRoot } from 'recoil'
 import { Router } from 'react-router-dom'
 import { type MemoryHistory, createMemoryHistory } from 'history'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -30,18 +31,20 @@ const makeSut = ({
   const setCurrentAccountMock = jest.fn()
 
   render(
+    <RecoilRoot>
       <ApiContext.Provider
-      value={{
-        setCurrentAccount: setCurrentAccountMock,
-        getCurrentAccount: () => mockAccountModel()
-      }}>
+        value={{
+          setCurrentAccount: setCurrentAccountMock,
+          getCurrentAccount: () => mockAccountModel()
+        }}>
         <Router location={history.location} navigator={history}>
-        <SurveyResult
-          loadSurveyResult={loadSurveyResultSpy}
-          saveSurveyResult={saveSurveyResultSpy}
-        />
+          <SurveyResult
+            loadSurveyResult={loadSurveyResultSpy}
+            saveSurveyResult={saveSurveyResultSpy}
+          />
         </Router>
-    </ApiContext.Provider>
+      </ApiContext.Provider>
+    </RecoilRoot>
   )
 
   return {
@@ -279,6 +282,8 @@ describe('SurveyResult Component', () => {
 
     const answersWrap = screen.queryAllByTestId('answer-wrap')
     fireEvent.click(answersWrap[1])
+
+    await waitFor(() => screen.getByTestId('survey-result'))
     fireEvent.click(answersWrap[1])
 
     await waitFor(() => screen.getByTestId('survey-result'))
