@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
 import { useNavigate, Link } from 'react-router-dom'
 
 import { Footer, LoginHeader, currentAccountState } from '@/presentation/components'
@@ -17,11 +17,13 @@ type Props = {
 }
 
 const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
+  const resetSignUpState = useResetRecoilState(signupState)
   const { setCurrentAccount } = useRecoilValue(currentAccountState)
 
   const navigate = useNavigate()
   const [state, setState] = useRecoilState(signupState)
 
+  useEffect(() => resetSignUpState, [])
   useEffect(() => { validate('name') }, [state.name])
   useEffect(() => { validate('email') }, [state.email])
   useEffect(() => { validate('password') }, [state.password])
@@ -69,7 +71,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
       <form data-testid="form" className={Styles.form} onSubmit={handleSubmit}>
         <h2>Criar Conta</h2>
 
-        <Input type='text' name='name' placeholder='Digite seu e-mail' />
+        <Input type='text' name='name' placeholder='Digite seu nome' />
         <Input type='email' name='email' placeholder='Digite seu e-mail' />
         <Input type='password' name='password' placeholder='Digite sua senha' />
         <Input type='password' name='passwordConfirmation' placeholder='Confirme sua senha' />
