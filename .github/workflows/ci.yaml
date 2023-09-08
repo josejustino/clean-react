@@ -50,7 +50,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Run ESlint
-        run: npm run eslint
+        run: npm run lint
 
       - name: Run Tests
         run: npm run test:ci

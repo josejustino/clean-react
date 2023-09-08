@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { type LoadSurveyList } from '@/domain/usecases'
 
 import { useErrorHandler } from '@/presentation/hooks'
-import { Footer, Header } from '@/presentation/components'
-import { SurveyContext, SurveyListError, SurveyListItem } from '@/presentation/pages/survey-list/components'
+import { Footer, Header, Error } from '@/presentation/components'
+import { SurveyListItem } from '@/presentation/pages/survey-list/components'
 
 import Styles from './survey-list-styles.scss'
 
@@ -23,22 +23,25 @@ const SurveyList: React.FC<Props> = ({ loadSurveyList }) => {
     reload: false
   })
 
+  const reload = (): void => {
+    setState(state => ({ surveys: [], error: '', reload: !state.reload }))
+  }
+
   useEffect(() => {
     loadSurveyList.loadAll()
       .then(surveys => { setState(old => ({ ...old, surveys })) })
       .catch(handleError)
   }, [state.reload])
 
-  const context = useMemo(() => ({ state, setState }), [state, setState])
-
   return (
     <div className={Styles.surveyListWrap}>
       <Header />
       <div className={Styles.contentWrap}>
         <h2>Enquetes</h2>
-        <SurveyContext.Provider value={context}>
-        {state.error ? <SurveyListError /> : <SurveyListItem />}
-        </SurveyContext.Provider>
+        {state.error
+          ? <Error error={state.error} reload={reload} />
+          : <SurveyListItem surveys={state.surveys} />
+        }
       </div>
       <Footer />
     </div>
