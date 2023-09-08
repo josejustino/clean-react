@@ -5,13 +5,12 @@ import { createMemoryHistory } from 'history'
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import { faker } from '@faker-js/faker'
 
-import { ApiContext } from '@/presentation/contexts'
-
 import { Login } from '@/presentation/pages'
+import { currentAccountState } from '@/presentation/components'
 
 import { ValidationStub, Helper } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
-import { AuthenticationSpy } from '@/domain/test'
+import { AuthenticationSpy, mockAccountModel } from '@/domain/test'
 import { type Authentication } from '@/domain/usecases'
 
 type StuTypes = {
@@ -30,17 +29,16 @@ const makeSut = (params?: SutParams): StuTypes => {
   const authenticationSpy = new AuthenticationSpy()
   const setCurrentAccountMock = jest.fn()
   validationStub.errorMessage = params?.validationError
+  const mockedState = { setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }
 
   render(
-    <RecoilRoot>
-      <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
-        <Router location={history.location} navigator={history}>
-          <Login
-            validation={validationStub}
-            authentication={authenticationSpy}
-          />
-        </Router>
-      </ApiContext.Provider>
+    <RecoilRoot initializeState={({ set }) => { set(currentAccountState, mockedState) }}>
+      <Router location={history.location} navigator={history}>
+        <Login
+          validation={validationStub}
+          authentication={authenticationSpy}
+        />
+      </Router>
     </RecoilRoot>
   )
 

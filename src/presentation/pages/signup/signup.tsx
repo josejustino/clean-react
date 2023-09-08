@@ -1,10 +1,8 @@
-import React, { useContext, useEffect } from 'react'
-import { useRecoilState } from 'recoil'
+import React, { useEffect } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { useNavigate, Link } from 'react-router-dom'
 
-import { ApiContext } from '@/presentation/contexts'
-
-import { Footer, LoginHeader } from '@/presentation/components'
+import { Footer, LoginHeader, currentAccountState } from '@/presentation/components'
 
 import { type AddAccount } from '@/domain/usecases'
 import { type Validation } from '@/presentation/protocols/validation'
@@ -19,7 +17,7 @@ type Props = {
 }
 
 const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
-  const { setCurrentAccount } = useContext(ApiContext)
+  const { setCurrentAccount } = useRecoilValue(currentAccountState)
 
   const navigate = useNavigate()
   const [state, setState] = useRecoilState(signupState)
