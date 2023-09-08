@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { type SaveSurveyResult, type LoadSurveyResult } from '@/domain/usecases'
 import { useErrorHandler } from '@/presentation/hooks'
@@ -46,10 +46,12 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult, saveSurveyResult }) =
       .catch(handleError)
   }, [state.reload])
 
+  const context = useMemo(() => ({ onAnswer }), [onAnswer])
+
   return (
     <div className={Styles.surveyResultWrap}>
       <Header />
-      <SurveyResultContext.Provider value={{ onAnswer }}>
+      <SurveyResultContext.Provider value={context}>
         <div data-testid="survey-result" className={Styles.contentWrap}>
           {state.surveyResult && <SurveyResultData surveyResult={state.surveyResult} />}
 
