@@ -1,12 +1,15 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 import { useNavigate, Link } from 'react-router-dom'
 
-import { ApiContext, FormContext } from '@/presentation/contexts'
+import { ApiContext } from '@/presentation/contexts'
 
-import { Footer, Input, LoginHeader, FormStatus, SubmitButton } from '@/presentation/components'
+import { Footer, LoginHeader } from '@/presentation/components'
 
 import { type AddAccount } from '@/domain/usecases'
 import { type Validation } from '@/presentation/protocols/validation'
+
+import { signupState, Input, SubmitButton, FormStatus } from './components'
 
 import Styles from './signup-styles.scss'
 
@@ -19,19 +22,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   const { setCurrentAccount } = useContext(ApiContext)
 
   const navigate = useNavigate()
-  const [state, setState] = useState({
-    isLoading: false,
-    isFormInvalid: true,
-    name: '',
-    email: '',
-    password: '',
-    passwordConfirmation: '',
-    nameError: '',
-    emailError: '',
-    passwordError: '',
-    passwordConfirmationError: '',
-    mainError: ''
-  })
+  const [state, setState] = useRecoilState(signupState)
 
   useEffect(() => { validate('name') }, [state.name])
   useEffect(() => { validate('email') }, [state.email])
@@ -45,8 +36,6 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
     setState(old => ({ ...old, [`${field}Error`]: validation.validate(field, formData) }))
     setState(old => ({ ...old, isFormInvalid: !!old.nameError || !!old.emailError || !!old.passwordError || !!old.passwordConfirmationError }))
   }
-
-  const context = useMemo(() => ({ state, setState }), [state, setState])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
@@ -79,21 +68,19 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   return (
     <div className={Styles.signupWrap}>
       <LoginHeader />
-      <FormContext.Provider value={context}>
-        <form data-testid="form" className={Styles.form} onSubmit={handleSubmit}>
-          <h2>Criar Conta</h2>
+      <form data-testid="form" className={Styles.form} onSubmit={handleSubmit}>
+        <h2>Criar Conta</h2>
 
-          <Input type='text' name='name' placeholder='Digite seu e-mail' />
-          <Input type='email' name='email' placeholder='Digite seu e-mail' />
-          <Input type='password' name='password' placeholder='Digite sua senha' />
-          <Input type='password' name='passwordConfirmation' placeholder='Confirme sua senha' />
+        <Input type='text' name='name' placeholder='Digite seu e-mail' />
+        <Input type='email' name='email' placeholder='Digite seu e-mail' />
+        <Input type='password' name='password' placeholder='Digite sua senha' />
+        <Input type='password' name='passwordConfirmation' placeholder='Confirme sua senha' />
 
-          <SubmitButton text="Cadastrar" />
-          <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar para Login</Link>
+        <SubmitButton text="Cadastrar" />
+        <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar para Login</Link>
 
-          <FormStatus />
-        </form>
-      </FormContext.Provider>
+        <FormStatus />
+      </form>
       <Footer />
     </div>
   )
