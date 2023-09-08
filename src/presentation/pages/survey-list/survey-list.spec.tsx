@@ -1,4 +1,5 @@
 import React from 'react'
+import { RecoilRoot } from 'recoil'
 import { Router } from 'react-router-dom'
 import { type MemoryHistory, createMemoryHistory } from 'history'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -21,15 +22,17 @@ const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
   const setCurrentAccountMock = jest.fn()
 
   render(
-    <ApiContext.Provider
-      value={{
-        setCurrentAccount: setCurrentAccountMock,
-        getCurrentAccount: () => mockAccountModel()
-      }}>
-      <Router location={history.location} navigator={history}>
-        <SurveyList loadSurveyList={loadSurveyListSpy} />
-      </Router>
-    </ApiContext.Provider>
+    <RecoilRoot>
+      <ApiContext.Provider
+        value={{
+          setCurrentAccount: setCurrentAccountMock,
+          getCurrentAccount: () => mockAccountModel()
+        }}>
+        <Router location={history.location} navigator={history}>
+          <SurveyList loadSurveyList={loadSurveyListSpy} />
+        </Router>
+      </ApiContext.Provider>
+    </RecoilRoot>
   )
 
   return {
