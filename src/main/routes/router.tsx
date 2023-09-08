@@ -1,22 +1,20 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { RecoilRoot } from 'recoil'
 
-import { ApiContext } from '@/presentation/contexts'
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters'
 
 import { MakeLogin, MakeSignUp, MakeSurveyList, MakeSurveyResult } from '@/main/factories/pages'
-import { PrivateRoute } from '@/presentation/components'
+import { PrivateRoute, currentAccountState } from '@/presentation/components'
 
 const Router: React.FC = () => {
-  const context = useMemo(() => ({
+  const state = {
     setCurrentAccount: setCurrentAccountAdapter,
     getCurrentAccount: getCurrentAccountAdapter
-  }), [])
+  }
 
   return (
-    <ApiContext.Provider
-      value={context}
-    >
+    <RecoilRoot initializeState={({ set }) => { set(currentAccountState, state) }}>
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={<MakeLogin />} />
@@ -30,7 +28,7 @@ const Router: React.FC = () => {
           </Route>
         </Routes>
       </BrowserRouter>
-    </ApiContext.Provider>
+    </RecoilRoot>
   )
 }
 

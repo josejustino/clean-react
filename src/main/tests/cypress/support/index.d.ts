@@ -1,9 +1,5 @@
-export {}
-
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      getByTestId: (id: string) => Chainable<JQuery<HTMLElement>>
-    }
+declare namespace Cypress {
+  export interface Chainable {
+    getByTestId: (id: string) => Chainable<JQuery<HTMLElement>>
   }
 }
