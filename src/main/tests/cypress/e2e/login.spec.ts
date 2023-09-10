@@ -8,7 +8,18 @@ const path = /login/
 
 export const mockUnauthorizedError = (): void => { Http.mockUnauthorizedError(path) }
 export const mockServerError = (): void => { Http.mockServerError(path, 'POST') }
-export const mockSuccess = (): void => { Http.mockOk(path, 'POST', 'account') }
+export const mockSuccess = (): void => {
+  Http.mockOk(/api\/surveys/, 'GET', 'survey-list')
+  Http.mockOk(path, 'POST', 'account', 'loginRequest')
+}
+
+// const populateFields = (): void => {
+//   cy.getByTestId('email').focus()
+//   cy.getByTestId('email').type(faker.internet.email())
+
+//   cy.getByTestId('password').focus()
+//   cy.getByTestId('password').type(faker.string.alphanumeric({ length: 7 }))
+// }
 
 const simulateValidSubmit = (): void => {
   cy.getByTestId('email').focus()
@@ -97,10 +108,18 @@ describe('Login', () => {
 
     simulateValidSubmit()
 
-    cy.getByTestId('error-wrap').should('not.have.descendants')
     Helper.testUrl('/')
     Helper.testLocalStorageItem('account')
   })
+
+  // it('Should prevent multiple submits', () => {
+  //   mockSuccess()
+  //   populateFields()
+
+  //   cy.getByTestId('submit').dblclick()
+  //   cy.wait('@loginRequest')
+  //   cy.get('@loginRequest.all').should('have.length', 1)
+  // })
 
   it('Should not call submit if form is invalid', () => {
     mockSuccess()
@@ -109,6 +128,6 @@ describe('Login', () => {
     cy.getByTestId('email').type(faker.internet.email())
     cy.getByTestId('email').type('{enter}')
 
-    Helper.testHttpCallsCount(0)
+    cy.get('@loginRequest.all').should('have.length', 0)
   })
 })

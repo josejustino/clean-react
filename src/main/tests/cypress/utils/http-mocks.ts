@@ -22,9 +22,9 @@ export const mockServerError = (url: RouteMatcher, method: Method): void => {
   }).as('request')
 }
 
-export const mockOk = (url: RouteMatcher, method: Method, response: any): void => {
+export const mockOk = (url: RouteMatcher, method: Method, response: any, alias = 'request'): void => {
   cy.intercept(method, url, {
     fixture: response,
     statusCode: 200
-  }).as('request')
+  }).as(alias)
 }

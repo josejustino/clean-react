@@ -28,8 +28,9 @@ describe('SurveyList', () => {
 
   //   mockSuccess()
   //   cy.getByTestId('reload').click()
-
-  //   cy.get('li:not(:empty)').should('have.length', 2)
+  //   cy.getByTestId('reload').then(() => {
+  //     cy.get('li:not(:empty)').should('have.length', 2)
+  //   })
   // })
 
   it('Should logout on AccessDeniedError', () => {
@@ -52,7 +53,6 @@ describe('SurveyList', () => {
     cy.visit('')
 
     cy.getByTestId('logout').click()
-
     Helper.testUrl('/login')
   })
 
