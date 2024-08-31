@@ -3,6 +3,6 @@ import { type Authentication } from '@/domain/usecases'
 import { makeAxiosHttpClient } from '@/main/factories/http/axios-http-cliente-factory'
 import { makeApiUrl } from '@/main/factories/http/api-url-factory'
 
-export const makeRemoveAuthentication = (): Authentication => {
+export const makeRemoteAuthentication = (): Authentication => {
   return new RemoteAuthentication(makeApiUrl('/login'), makeAxiosHttpClient())
 }
