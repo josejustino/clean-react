@@ -20,9 +20,9 @@ const makeSut = (account = mockAccountModel()): SutTypes => {
 }
 
 describe('PrivateRoute', () => {
-  test('Should redirect to /login if token is empty', () => {
+  test('Should redirect to /signin if token is empty', () => {
     const { history } = makeSut(null)
-    expect(history.location.pathname).toBe('/login')
+    expect(history.location.pathname).toBe('/signin')
   })
 
   test('Should render current component if token is not empty', () => {

@@ -17,7 +17,7 @@ const Router: React.FC = () => {
     <RecoilRoot initializeState={({ set }) => { set(currentAccountState, state) }}>
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<MakeLogin />} />
+          <Route path='/signin' element={<MakeLogin />} />
           <Route path='/signup' element={<MakeSignUp />} />
 
           <Route
