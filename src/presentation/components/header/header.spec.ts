@@ -30,7 +30,7 @@ describe('Header Component', () => {
     fireEvent.click(screen.getByTestId('logout'))
 
     expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
-    expect(history.location.pathname).toBe('/login')
+    expect(history.location.pathname).toBe('/signin')
   })
 
   test('Should render username correctly', () => {

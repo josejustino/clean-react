@@ -220,6 +220,6 @@ describe('SignUp Component', () => {
     fireEvent.click(loginLink)
 
     expect(window.history.length).toBe(1)
-    expect(history.location.pathname).toBe('/login')
+    expect(history.location.pathname).toBe('/signin')
   })
 })

@@ -11,6 +11,6 @@ export const useLogout = (): ResultType => {
 
   return (): void => {
     setCurrentAccount(undefined)
-    navigate('/login')
+    navigate('/signin')
   }
 }

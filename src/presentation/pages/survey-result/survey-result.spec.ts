@@ -133,7 +133,7 @@ describe('SurveyResult Component', () => {
 
     await waitFor(() => {
       expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
-      expect(history.location.pathname).toBe('/login')
+      expect(history.location.pathname).toBe('/signin')
     })
   })
 
@@ -224,7 +224,7 @@ describe('SurveyResult Component', () => {
 
     await waitFor(() => {
       expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
-      expect(history.location.pathname).toBe('/login')
+      expect(history.location.pathname).toBe('/signin')
     })
   })
 

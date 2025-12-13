@@ -8,7 +8,7 @@ const PrivateRoute: React.FC = () => {
   const { getCurrentAccount } = useRecoilValue(currentAccountState)
 
   return (
-    getCurrentAccount()?.accessToken ? <Outlet /> : <Navigate to="/login" />
+    getCurrentAccount()?.accessToken ? <Outlet /> : <Navigate to="/signin" />
   )
 }
 

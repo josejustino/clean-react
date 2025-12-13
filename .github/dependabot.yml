@@ -1,0 +1,36 @@
+# Para mais informações, consulte:
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Configuração para dependências do npm/yarn
+  - package-ecosystem: "npm"
+    # Localização do seu arquivo manifest (package.json)
+    directory: "/"
+    # Em um projeto padrão, o package.json está na raiz. Se estiver em um subdiretório (ex: 'client/'),
+    # altere o 'directory' para 'client/'
+
+    # As branches (ramos) para as quais o Dependabot deve abrir Pull Requests
+    target-branch: "master"
+
+    # Frequência de verificação: diária, semanal (padrão) ou mensal
+    schedule:
+      interval: "daily"
+
+    reviewers:
+      - "josejustino"
+    labels:
+      - "dependencies"
+      - "dependabot"
+
+  # Configuração duplicada para a branch 'sandbox'
+  - package-ecosystem: "npm"
+    directory: "/"
+    target-branch: "sandbox"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "josejustino
+    labels:
+      - "dependencies"
+      - "dependabot"
