@@ -37,7 +37,7 @@ describe('SurveyList', () => {
     mockAccessDeniedError()
     cy.visit('')
 
-    Helper.testUrl('/login')
+    Helper.testUrl('/signin')
   })
 
   it('Should present correct username', () => {
@@ -53,7 +53,7 @@ describe('SurveyList', () => {
     cy.visit('')
 
     cy.getByTestId('logout').click()
-    Helper.testUrl('/login')
+    Helper.testUrl('/signin')
   })
 
   it('Should present survey items', () => {
