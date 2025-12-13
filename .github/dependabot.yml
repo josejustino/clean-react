@@ -30,7 +30,7 @@ updates:
     schedule:
       interval: "daily"
     reviewers:
-      - "josejustino
+      - "josejustino"
     labels:
       - "dependencies"
       - "dependabot"
