@@ -4,7 +4,7 @@ import * as FormHelper from '../utils/form-helpers'
 import * as Helper from '../utils/helpers'
 import * as Http from '../utils/http-mocks'
 
-const path = /login/
+const path = /signin/
 
 export const mockUnauthorizedError = (): void => { Http.mockUnauthorizedError(path) }
 export const mockServerError = (): void => { Http.mockServerError(path, 'POST') }
@@ -33,7 +33,7 @@ const simulateValidSubmit = (): void => {
 
 describe('Login', () => {
   beforeEach(() => {
-    cy.visit('login')
+    cy.visit('signin')
   })
 
   it('Should load with correct initial state', () => {
@@ -91,7 +91,7 @@ describe('Login', () => {
     simulateValidSubmit()
 
     FormHelper.testMainError('Credenciais inválidas')
-    Helper.testUrl('/login')
+    Helper.testUrl('/signin')
   })
 
   it('Should present UnexpectedError on default error cases', () => {
@@ -100,7 +100,7 @@ describe('Login', () => {
     simulateValidSubmit()
 
     FormHelper.testMainError('Algo de errado aconteceu. Tente novamente em breve.')
-    Helper.testUrl('/login')
+    Helper.testUrl('/signin')
   })
 
   it('Should store account on localStorage if valid credentials are provided', () => {
